@@ -7,10 +7,7 @@ function initializeBottomCart(){
     modalContainer = addModalContainer();
     modalContainer.appendChild(cartClone);
 
-    let closeButton = addCloseButton();
-    closeButton.onclick = () => {
-        hideModal();
-    }
+    addCloseButton();
 
     addStyleSheet();
 }
@@ -23,7 +20,7 @@ window.onscroll = () => {
 
     let bottomOffset = 1000;
     let bottomTrigger = container.offsetHeight - bottomOffset;
-    
+
     let pastBottomTrigger = adjustedScrollDistance >= bottomTrigger;
     if (pastBottomTrigger){
         showModal();
@@ -51,6 +48,9 @@ function addCloseButton() {
     let closeButton = document.createElement("span");
     closeButton.className = "close";
     closeButton.innerHTML = "&times;";
+    closeButton.onclick = () => {
+        hideModal();
+    }
     cartClone.prepend(closeButton);
     return closeButton;
 }
