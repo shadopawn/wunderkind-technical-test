@@ -2,6 +2,8 @@ let cartClone;
 let modalContainer;
 
 function initializeBottomCart(){
+    initializeDropDownCart();
+
     cartClone = cloneCart();
 
     modalContainer = addModalContainer();
@@ -14,7 +16,7 @@ function initializeBottomCart(){
 
 initializeBottomCart();
 
-let canBeTriggered = true
+let canBeTriggered = true;
 let container = document.querySelector("#container");
 window.onscroll = () => {
     let adjustedScrollDistance = window.pageYOffset + window.innerHeight;
@@ -35,6 +37,14 @@ window.onscroll = () => {
 
 window.onclick = (event) => {
     hideModalOnBackgroundClick(event);
+}
+
+function initializeDropDownCart(){
+    let miniCartButton = document.querySelector("#tr_phase2_ShoppingBg");
+    // double click mini cart button to render the drop down cart
+    // without this sometimes the drop down cart elements are null
+    miniCartButton.click();
+    miniCartButton.click();
 }
 
 function cloneCart(){
