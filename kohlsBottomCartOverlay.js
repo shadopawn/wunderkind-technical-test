@@ -14,6 +14,7 @@ function initializeBottomCart(){
 
 initializeBottomCart();
 
+let canBeTriggered = true
 let container = document.querySelector("#container");
 window.onscroll = () => {
     let adjustedScrollDistance = window.pageYOffset + window.innerHeight;
@@ -22,8 +23,13 @@ window.onscroll = () => {
     let bottomTrigger = container.offsetHeight - bottomOffset;
 
     let pastBottomTrigger = adjustedScrollDistance >= bottomTrigger;
-    if (pastBottomTrigger){
+    if (pastBottomTrigger && canBeTriggered){
         showModal();
+        canBeTriggered = false;
+    }
+
+    if(!pastBottomTrigger){
+        canBeTriggered = true;
     }
 };
 
@@ -31,20 +37,20 @@ window.onclick = (event) => {
     hideModalOnBackgroundClick(event);
 }
 
-function cloneCart() {
+function cloneCart(){
     let dropDownCart = document.querySelector(".tr_phase2_sub_header");
     let cartClone = dropDownCart.cloneNode(true);
     return cartClone;
 }
 
-function addModalContainer() {
+function addModalContainer(){
     let modalContainer = document.createElement("div");
     modalContainer.className = "bottom-cart-modal";
     document.body.appendChild(modalContainer);
     return modalContainer;
 }
 
-function addCloseButton() {
+function addCloseButton(){
     let closeButton = document.createElement("span");
     closeButton.className = "close";
     closeButton.innerHTML = "&times;";
@@ -55,7 +61,7 @@ function addCloseButton() {
     return closeButton;
 }
 
-function addStyleSheet() {
+function addStyleSheet(){
     let cartStyleLink = document.createElement("link");
     cartStyleLink.rel = "stylesheet";
     cartStyleLink.type = "text/css";
@@ -64,7 +70,7 @@ function addStyleSheet() {
 }
 
 function hideModalOnBackgroundClick(event){
-    if (event.target == modalContainer) {
+    if (event.target == modalContainer){
         hideModal();
     }
 }
