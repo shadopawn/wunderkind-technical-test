@@ -36,12 +36,6 @@ window.onclick = (event) => {
     hideModalOnBackgroundClick(event);
 }
 
-function setupModal(modalContent) {
-    modalContainer = addModalContainer();
-    modalContainer.appendChild(modalContent);
-    addCloseButton();
-}
-
 function initializeDropDownCart() {
     let miniCartButton = document.querySelector("#tr_phase2_ShoppingBg");
     // double click mini cart button to render the drop down cart
@@ -54,6 +48,12 @@ function cloneCart() {
     let dropDownCart = document.querySelector(".tr_phase2_sub_header");
     let cartClone = dropDownCart.cloneNode(true);
     return cartClone;
+}
+
+function setupModal(modalContent) {
+    modalContainer = addModalContainer();
+    modalContainer.appendChild(modalContent);
+    addCloseButton();
 }
 
 function addModalContainer() {
