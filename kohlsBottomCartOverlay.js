@@ -1,22 +1,19 @@
 let cartClone;
 let modalContainer;
 
-function initializeBottomCart(){
+function initializeBottomCart() {
     initializeDropDownCart();
 
     cartClone = cloneCart();
 
-    modalContainer = addModalContainer();
-    modalContainer.appendChild(cartClone);
-
-    addCloseButton();
+    setupModal(cartClone);
 
     addStyleSheet();
 }
 
 initializeBottomCart();
 
-let canBeTriggered = true;
+let canTriggerCart = true;
 let container = document.querySelector("#container");
 window.onscroll = () => {
     let adjustedScrollDistance = window.pageYOffset + window.innerHeight;
@@ -25,13 +22,13 @@ window.onscroll = () => {
     let bottomTrigger = container.offsetHeight - bottomOffset;
 
     let pastBottomTrigger = adjustedScrollDistance >= bottomTrigger;
-    if (pastBottomTrigger && canBeTriggered){
+    if (pastBottomTrigger && canTriggerCart) {
         showModal();
-        canBeTriggered = false;
+        canTriggerCart = false;
     }
 
-    if(!pastBottomTrigger){
-        canBeTriggered = true;
+    if(!pastBottomTrigger) {
+        canTriggerCart = true;
     }
 };
 
@@ -39,7 +36,13 @@ window.onclick = (event) => {
     hideModalOnBackgroundClick(event);
 }
 
-function initializeDropDownCart(){
+function setupModal(modalContent) {
+    modalContainer = addModalContainer();
+    modalContainer.appendChild(modalContent);
+    addCloseButton();
+}
+
+function initializeDropDownCart() {
     let miniCartButton = document.querySelector("#tr_phase2_ShoppingBg");
     // double click mini cart button to render the drop down cart
     // without this sometimes the drop down cart elements are null
@@ -47,20 +50,20 @@ function initializeDropDownCart(){
     miniCartButton.click();
 }
 
-function cloneCart(){
+function cloneCart() {
     let dropDownCart = document.querySelector(".tr_phase2_sub_header");
     let cartClone = dropDownCart.cloneNode(true);
     return cartClone;
 }
 
-function addModalContainer(){
+function addModalContainer() {
     let modalContainer = document.createElement("div");
     modalContainer.className = "bottom-cart-modal";
     document.body.appendChild(modalContainer);
     return modalContainer;
 }
 
-function addCloseButton(){
+function addCloseButton() {
     let closeButton = document.createElement("span");
     closeButton.className = "close";
     closeButton.innerHTML = "&times;";
@@ -71,7 +74,7 @@ function addCloseButton(){
     return closeButton;
 }
 
-function addStyleSheet(){
+function addStyleSheet() {
     let cartStyleLink = document.createElement("link");
     cartStyleLink.rel = "stylesheet";
     cartStyleLink.type = "text/css";
@@ -79,16 +82,16 @@ function addStyleSheet(){
     document.head.appendChild(cartStyleLink);
 }
 
-function hideModalOnBackgroundClick(event){
+function hideModalOnBackgroundClick(event) {
     if (event.target == modalContainer){
         hideModal();
     }
 }
 
-function hideModal(){
+function hideModal() {
     modalContainer.style.display = "none";
 }
 
-function showModal(){
+function showModal() {
     modalContainer.style.display = "flex";
 }
