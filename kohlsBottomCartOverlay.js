@@ -1,40 +1,69 @@
-let dropDownCart = document.querySelector(".tr_phase2_sub_header");
-console.log(dropDownCart);
+let cartClone;
+let modalContainer;
 
-let cartClone = dropDownCart.cloneNode(true);
+function initializeBottomCart(){
+    cartClone = cloneCart();
+
+    modalContainer = addModalContainer();
+    modalContainer.appendChild(cartClone);
+
+    let closeButton = addCloseButton();
+    closeButton.onclick = () => {
+        hideModal();
+    }
+
+    addStyleSheet();
+}
+
+initializeBottomCart();
 
 let container = document.querySelector("#container");
 window.onscroll = () => {
+    let adjustedScrollDistance = window.pageYOffset + window.innerHeight;
+
     let bottomOffset = 1000;
-    let pastBottomTrigger = (window.innerHeight + window.pageYOffset) >= container.offsetHeight - bottomOffset;
+    let bottomTrigger = container.offsetHeight - bottomOffset;
+    
+    let pastBottomTrigger = adjustedScrollDistance >= bottomTrigger;
     if (pastBottomTrigger){
         showModal();
     }
 };
 
-let modalContainer = document.createElement('div');
-modalContainer.className = "bottom-cart-modal";
-document.body.appendChild(modalContainer);
-
-modalContainer.appendChild(cartClone);
-
-let closeButton = document.createElement('span');
-closeButton.className = "close";
-closeButton.innerHTML = "&times;";
-cartClone.prepend(closeButton);
-
-closeButton.onclick = () => {
-    hideModal();
+window.onclick = (event) => {
+    hideModalOnBackgroundClick(event);
 }
 
-let cartStyleLink  = document.createElement('link');
-cartStyleLink.rel  = 'stylesheet';
-cartStyleLink.type = 'text/css';
-cartStyleLink.href = 'http://127.0.0.1:5500/cartStyle.css';
-document.head.appendChild(cartStyleLink);
+function cloneCart() {
+    let dropDownCart = document.querySelector(".tr_phase2_sub_header");
+    let cartClone = dropDownCart.cloneNode(true);
+    return cartClone;
+}
 
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
+function addModalContainer() {
+    let modalContainer = document.createElement("div");
+    modalContainer.className = "bottom-cart-modal";
+    document.body.appendChild(modalContainer);
+    return modalContainer;
+}
+
+function addCloseButton() {
+    let closeButton = document.createElement("span");
+    closeButton.className = "close";
+    closeButton.innerHTML = "&times;";
+    cartClone.prepend(closeButton);
+    return closeButton;
+}
+
+function addStyleSheet() {
+    let cartStyleLink = document.createElement("link");
+    cartStyleLink.rel = "stylesheet";
+    cartStyleLink.type = "text/css";
+    cartStyleLink.href = "https://shadopawn.github.io/wunderkind-technical-test/cartStyle.css";
+    document.head.appendChild(cartStyleLink);
+}
+
+function hideModalOnBackgroundClick(event){
     if (event.target == modalContainer) {
         hideModal();
     }
